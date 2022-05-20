@@ -1,11 +1,11 @@
 <?php
 
-include "1.php";
+include "fun.php";
+include "connect.php";
 
 $full_up = 0;
 session_start();
-$_SESSION['error_sign']=0;
-// $error_sign =0 ;
+
 
 
 $name;
@@ -27,12 +27,8 @@ $phonePattern = "/[07]{2,3}[7-9]{1,2}[0-9]{7,8}/ ";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
-
-    include "connect.php";
-
     $button = $_POST['btn'];
-    if ($button == "Sign-up") {
+    if (isset($button) && $button == "Sign-up") {
 
 
         $name = $_POST["name"];
@@ -41,25 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $num = $_POST["num"];
         $password = $_POST["password"];
         $conferm = $_POST["conferm"];
-      //  echo $_SESSION['error_sign'];
 
         if ($name != '' && $email != '' && $password != '' && $conferm != '' && $address != '' && $num != '') {
-
-            if (!$_SESSION['error_sign']) {
-
-                //$sql = "INSERT INTO `userstable` (user_name, user_address, user_email, user_password, user_phone) VALUES ('$name', '$address', '$email', '$password', '$num');";
+            if (!email_check($email) && name_check($namePattern, $name) && phone_check($phonePattern, $num) && pass_check($passPattern, $password) && $conferm == $password) {
 
                 $insertUser = "INSERT INTO `userstable` (user_name, user_address, user_email, user_password, user_phone) VALUES ('$name', '$address', '$email', '$password', '$num');";
-
                 // injection
-
                 $result = $pdo->prepare($insertUser);
                 $result->execute([':user_name' => $name, ':user_address' => $address, ':user_email' => $email, ':user_password' => $password, ':user_phone' => $num]);
                 if ($result) {
-
-                   // header('location:login.php');
-                    echo "true";
-                    echo $_SESSION['error_sign'];
+                    header('location:login.php');
+                    $email = "";
                 }
             }
         } else {
@@ -82,23 +70,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //echo  $email, $password;
 
         if ($email != '' && $password != '') {
+            if ($email != '' && $password != '') {
 
-            if (!$error_sign) {
+                $login = "SELECT * FROM `userstable` where user_email='$email' and user_password='$password'";
+                $result = $pdo->query($login);
+                $user = $result->fetch();
+                $count = $result->rowCount();
+                if ($count != 0) {
 
-                // $sql = "UPDATE `userstable` SET flage ='1' WHERE user_email = '$email';";
-                // mysqli_query($conn, $sql);
+                    $insertUser = "UPDATE `userstable` SET flage ='1' WHERE user_email = '$email';";
+                    // injection
+                    $result = $pdo->prepare($insertUser);
+                    $result->execute([':user_email' => $email]);
+                    if ($result) {
 
-                $insertUser = "UPDATE `userstable` SET flage ='1' WHERE user_email = '$email';";
-                // injection
-                $result = $pdo->prepare($insertUser);
-                $result->execute([':user_email' => $email]);
+                        $login = "SELECT user_id  FROM `userstable` where user_email='$email' and user_password='$password'";
+                        $result = $pdo->query($login);
+                        $user = $result->fetch();
 
-                session_start();
-                $_SESSION['uesr_email'] = $email;
-                header('location:Home.php');
+                        $_SESSION['user_id '] = $user['user_id'];
+                        header('location: ../user/profile.php');
+    
+
+                    } else {
+                        echo "faild login";
+                    }
+                }
+            } else {
+                $full_up = 1;
             }
-        } else {
-            $full_up = 1;
         }
     }
 }

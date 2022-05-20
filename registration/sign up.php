@@ -1,5 +1,5 @@
 <?php
-include "fun.php";
+include "registration.php";
 
 global $name;
 global $email;
@@ -8,57 +8,7 @@ global $num;
 global $password;
 global $conferm;
 
-
-
 $full_up = 0;
-
-
-$passPattern = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/ ";
-// Must be a minimum of 8 characters
-// Must contain at least 1 number
-// Must contain at least one uppercase character
-// Must contain at least one lowercase character
-
-$namePattern =  "/^[a-z ]+$/i ";
-
-$phonePattern = "/[07]{2,3}[7-9]{1,2}[0-9]{7,8}/ ";
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
-
-  include "connect.php";
-
-  //$button = $_POST['btn'];
-  if (isset($_POST['btn'])) {
-
-
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $address = $_POST["address"];
-    $num = $_POST["num"];
-    $password = $_POST["password"];
-    $conferm = $_POST["conferm"];
-
-    if ($name != '' && $email != '' && $password != '' && $conferm != '' && $address != '' && $num != '') {
-      if (!email_check($email) && name_check($namePattern, $name) && phone_check($phonePattern, $num) && pass_check($passPattern, $password) && $conferm == $password) {
-
-        $insertUser = "INSERT INTO `userstable` (user_name, user_address, user_email, user_password, user_phone) VALUES ('$name', '$address', '$email', '$password', '$num');";
-        // injection
-        $result = $pdo->prepare($insertUser);
-        $result->execute([':user_name' => $name, ':user_address' => $address, ':user_email' => $email, ':user_password' => $password, ':user_phone' => $num]);
-        if ($result) {
-
-          header('location:login.php');
-          // echo "true";
-          $email = "";
-        }
-      }
-    } else {
-      $full_up = 1;
-    }
-  }
-}
 ?>
 
 

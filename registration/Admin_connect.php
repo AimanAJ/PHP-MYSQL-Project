@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $count = $result->rowCount();
         if ($count != 0) {
 
-            header('location:dashbord.php');
+            header('location: ../admin/index.php');
         } else {
           //  echo "login faild";
         }

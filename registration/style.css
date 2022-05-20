@@ -237,7 +237,7 @@ form.sign-in-form {
 
 /* ANIMATION */
 
-.container.sign-up-mode:before {
+/* .container.sign-up-mode:before {
   transform: translate(100%, -50%);
   right: 52%;
 }
@@ -272,7 +272,7 @@ form.sign-in-form {
 
 .container.sign-up-mode .right-panel {
   pointer-events: all;
-}
+} */
 
 @media (max-width: 870px) {
   .container {

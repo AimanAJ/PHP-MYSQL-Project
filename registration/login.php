@@ -1,46 +1,10 @@
 <?php
 
-session_start();
+include "registration.php";
 global $full_up;
-
-
 global $email;
 global $password;
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  include "connect.php";
-
-  $button = $_POST['btn'];
-  if ($button == "Login") {
-
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-
-    if ($email != '' && $password != '') {
-
-      $login = "SELECT * FROM `userstable` where user_email='$email' and user_password='$password'";
-      $result = $pdo->query($login);
-      $user = $result->fetch();
-      $count = $result->rowCount();
-      if ($count != 0) {
-
-        $insertUser = "UPDATE `userstable` SET flage ='1' WHERE user_email = '$email';";
-        // injection
-        $result = $pdo->prepare($insertUser);
-        $result->execute([':user_email' => $email]);
-        if ($result) {
-          $_SESSION['user_email'] = $email;
-          header('location:Home.php');
-        } else {
-          echo "faild login";
-        }
-      }
-    } else {
-      $full_up = 1;
-    }
-  }
-}
 ?>
 
 

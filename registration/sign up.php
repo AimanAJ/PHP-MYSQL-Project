@@ -1,5 +1,6 @@
 <?php
 include "registration.php";
+include_once "../headFoot/header.php";
 
 global $name;
 global $email;
@@ -9,6 +10,7 @@ global $password;
 global $conferm;
 
 $full_up = 0;
+
 ?>
 
 
@@ -126,8 +128,10 @@ $full_up = 0;
           ?>
 
           <?php
-          if ($full_up) {
-            $full_up = 0;
+          if ($_SESSION['full_up'] == 1) {
+            if (isset($_SESSION['full_up'])) {
+              $_SESSION['full_up'] = 0;
+            }
             echo "<label style='color:red ;'>You have to fill all field </label>";
           }
           ?>
@@ -154,7 +158,6 @@ $full_up = 0;
 
       </div>
     </div>
-
 
     <form action="login.php">
       <div class="panels-container">

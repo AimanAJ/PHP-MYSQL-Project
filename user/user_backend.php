@@ -1,5 +1,5 @@
 <?php 
-    require "../connect.php";
+    require "../connect2.php";
     function user_singup($connect , $name , $address , $email , $password , $phone ){
         $sql = "INSERT INTO userstable (user_name , user_address,user_email,user_password , user_phone) VALUES (:name , :address , :email , :pass , :phone)
         ";

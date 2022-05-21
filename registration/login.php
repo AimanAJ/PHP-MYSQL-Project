@@ -1,6 +1,7 @@
 <?php
 
 include "registration.php";
+include_once "../headFoot/header.php";
 global $full_up;
 global $email;
 global $password;
@@ -30,6 +31,7 @@ global $password;
 
 
 
+        <!--------------------------------------------------- email ---------------------------------------->
 
         <form action="#" class="sign-in-form" method="post">
           <h2 class="title">Login</h2>
@@ -40,18 +42,19 @@ global $password;
 
           <?php
           if ($email != '') {
-            //$sql = mysqli_query($conn, "SELECT * FROM `userstable` where user_email='$email'");
+
             $login = "SELECT * FROM `userstable` where user_email='$email'";
             $result = $pdo->query($login);
             $user = $result->fetch();
             $count = $result->rowCount();
             if ($count == 0) {
               echo "<label style='color:red ;'>*Email not found</label>";
-            } 
+            }
           }
           ?>
 
 
+          <!--------------------------------------------------- password ---------------------------------------->
 
           <div class="input-field">
             <i class="fas fa-lock"></i>
@@ -61,25 +64,25 @@ global $password;
 
           <?php
           if ($password != '') {
-            //$sql = mysqli_query($conn, "SELECT * FROM `userstable` where user_password='$password'");
 
             $login = "SELECT user_password FROM `userstable` where user_email='$email'";
             $result = $pdo->query($login);
             $user = $result->fetch();
-            $count = $result->rowCount();
             if ($user != $password) {
               echo "<label style='color:red ;'>*Enter correct password</label>";
-            } 
+            }
           }
 
 
-          if ($full_up) {
-            $full_up = 0;
-            echo "<label style='color:red ;'>You have to fill all fields </label>";
+          if ($_SESSION['full_up'] == 1) {
+            if (isset($_SESSION['full_up'])) {
+              $_SESSION['full_up'] = 0;
+            }
+            echo "<label style='color:red ;'>You have to fill all field </label>";
           }
           ?>
 
-          <input type="submit" value="Login" class="btn " name="btn" />
+          <input type="submit" value="Login" class="btn " name="btn" style="  background-color: #5995fd ;" />
           <p class="social-text">Or Sign in with social platforms</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -96,11 +99,6 @@ global $password;
             </a>
           </div>
         </form>
-
-
-
-
-
       </div>
     </div>
 

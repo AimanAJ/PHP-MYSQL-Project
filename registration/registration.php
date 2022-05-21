@@ -1,10 +1,10 @@
 <?php
 
 include "fun.php";
-include "connect.php";
-
-$full_up = 0;
+include "../connect.php";
 session_start();
+
+$_SESSION['full_up'] = 0;;
 
 
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $insertUser = "INSERT INTO `userstable` (user_name, user_address, user_email, user_password, user_phone) VALUES ('$name', '$address', '$email', '$password', '$num');";
                 // injection
-                $result = $pdo->prepare($insertUser);
+                $result = $connect->prepare($insertUser);
                 $result->execute([':user_name' => $name, ':user_address' => $address, ':user_email' => $email, ':user_password' => $password, ':user_phone' => $num]);
                 if ($result) {
                     header('location:login.php');
@@ -51,7 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } else {
-            $full_up = 1;
+            if (isset($_SESSION['full_up'])) {
+                $_SESSION['full_up'] = 1;
+            }
         }
     }
 
@@ -70,35 +72,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //echo  $email, $password;
 
         if ($email != '' && $password != '') {
-            if ($email != '' && $password != '') {
 
-                $login = "SELECT * FROM `userstable` where user_email='$email' and user_password='$password'";
-                $result = $pdo->query($login);
-                $user = $result->fetch();
-                $count = $result->rowCount();
-                if ($count != 0) {
+            $login = "SELECT * FROM `userstable` where user_email='$email' and user_password='$password'";
+            $result = $connect->query($login);
+            $user = $result->fetch();
+            $count = $result->rowCount();
+            if ($count != 0) {
 
-                    $insertUser = "UPDATE `userstable` SET flage ='1' WHERE user_email = '$email';";
-                    // injection
-                    $result = $pdo->prepare($insertUser);
-                    $result->execute([':user_email' => $email]);
-                    if ($result) {
+                $insertUser = "UPDATE `userstable` SET flage ='1' WHERE user_email = '$email';";
+                // injection
+                $result = $connect->prepare($insertUser);
+                $result->execute([':user_email' => $email]);
+                if ($result) {
 
-                        $login = "SELECT user_id  FROM `userstable` where user_email='$email' and user_password='$password'";
-                        $result = $pdo->query($login);
-                        $user = $result->fetch();
+                    $login = "SELECT user_id  FROM `userstable` where user_email='$email' and user_password='$password'";
+                    $result = $connect->query($login);
+                    $user = $result->fetch();
 
-                        $_SESSION['user_id '] = $user['user_id'];
-                        header('location: ../user/profile.php');
-    
-
-                    } else {
-                        echo "faild login";
-                    }
+                    $_SESSION['user_id '] = $user['user_id'];
+                    header('location: ../home.php');
+                } else {
+                    echo "faild login";
                 }
-            } else {
-                $full_up = 1;
             }
+        } else {
+            if (isset($_SESSION['full_up'])) {
+                $_SESSION['full_up'] = 1;
+              }
         }
     }
 }

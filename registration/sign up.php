@@ -1,6 +1,5 @@
 <?php
 include "registration.php";
-include_once "../headFoot/header.php";
 
 global $name;
 global $email;
@@ -10,7 +9,6 @@ global $password;
 global $conferm;
 
 $full_up = 0;
-
 ?>
 
 
@@ -158,6 +156,7 @@ $full_up = 0;
 
       </div>
     </div>
+
 
     <form action="login.php">
       <div class="panels-container">

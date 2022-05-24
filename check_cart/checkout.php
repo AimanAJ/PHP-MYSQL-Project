@@ -1,25 +1,31 @@
 <?php
 
 
- 
+
 session_start();
-$sess= $_SESSION['user_id '];
+$sess = $_SESSION['user_id '] ?? 3;
+
 require "../connect2.php";
 
- 
-include_once "../headFoot/header.php";
- 
 
+include_once "../headFoot/header.php";
+
+// echo "<pre>";
+// print_r($arr_quantity);
+// print_r($arr_name);
+// print_r($arr_price);
+// echo "test";
+// echo "</pre>";
 ?>
 <?php
 
- 
- $stmt = $conn->query("SELECT * FROM userstable WHERE user_id='$sess'");
+
+$stmt = $conn->query("SELECT * FROM userstable WHERE user_id='$sess'");
 //  $stmt->execute();
- 
- $users = $stmt->fetch(PDO::FETCH_ASSOC);
- 
- // Send the user to the place order page if they click the Place Order button, also the cart should not be empty
+
+$users = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Send the user to the place order page if they click the Place Order button, also the cart should not be empty
 if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     header('Location: orderplaced.php');
     exit;
@@ -41,6 +47,11 @@ if (isset($_POST['update']) && isset($_SESSION['cart'])) {
         }
     }
 }
+
+
+
+
+
 // Check the session variable for products in cart
 $products_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
 $products = array();
@@ -61,8 +72,8 @@ $subtotal = 0.00;
 //         $subtotal += (float)$product['product_price'] * (int)$products_in_cart[$product['product_id']];
 //     }
 //}
- ?>
- 
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,125 +103,174 @@ $subtotal = 0.00;
 </head>
 
 <body>
-<section id="cart_items">
-    <div class="container">
-        <div class="step-one">
-            <h2 class="heading">Check Out </h2>
-        </div>
-
-
-
-
-        <div class="shopper-informations">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="shopper-info">
-                        <p>Shopper Information</p>
-                        <form>
-                            <label>User Name: </label><p><?php echo $users['user_name']?></P>
-                            <label>Email: </label><p><?php echo $users['user_email']?></P>
-
-                            <label>Address: </label><p><?php echo $users['user_address']?></P>
-                            <label>Phone No.: </label><p><?php echo $users['user_phone']?></P>
-
-                            
-
-                        </form>
-                        <a class="btn btn-primary" href="orderplaced.php">proceed to Check Out </a>
-                       
-                    </div>
-                </div>
-              
+    <section id="cart_items">
+        <div class="container">
+            <div class="step-one">
+                <h2 class="heading">Check Out </h2>
             </div>
-        </div>
-        <div class="review-payment">
-            <h2>Review & Payment</h2>
-        </div>
 
-        <div class="table-responsive cart_info">
-            <table class="table table-condensed">
-                <thead>
-                    <tr class="cart_menu">
-                        <td class="image">Item</td>
-                        <td class="description"></td>
-                        <td class="price">Price</td>
-                        <td class="quantity">Quantity</td>
-                        <td class="total">Total</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php 
-                foreach ($products as $product):
-                 ?>
-                 
-              
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="fwy6zosqphc8hzjk0rgr.webp" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href=""><?php $product['product_name']?></a></h4>
-                            <p>  ID: <?php echo $product['product_id']?></p>
-                        </td>
-                        <td class="cart_price">
-                            <p><?php echo $product['product_price']?></p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                 
-                        <input class="cart_quantity_input" type="text" name="quantity-<?=$product['product_id']?>" value="1" autocomplete="off" size="2">
-                                
-                            </div>
-                           
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price"> <?php echo $product['product_price']?></p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
 
-                    <?php 
-                endforeach; 
-                ?>
 
-                    
-                    <tr>
-                        <td colspan="4">&nbsp;</td>
-                        <td colspan="2">
-                            <table class="table table-condensed total-result">
-                                <tr>
-                                    <td>Cart Sub Total</td>
-                                    <td><?php $subtotal ?> </td>
-                                </tr>
-                                 
-                                <tr class="shipping-cost">
-                                    <td>Shipping Cost</td>
-                                    <td>Free</td>
-                                </tr>
-                                <tr>
-                                    <td>Total</td>
-                                    <td><span><?php $subtotal ?> </span></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                   
-                </tbody>
-            </table>
+
+            <div class="shopper-informations">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="shopper-info">
+                            <p>Shopper Information</p>
+                            <form>
+                                <label>User Name: </label>
+                                <p><?php echo $users['user_name'] ?></P>
+                                <label>Email: </label>
+                                <p><?php echo $users['user_email'] ?></P>
+
+                                <label>Address: </label>
+                                <p><?php echo $users['user_address'] ?></P>
+                                <label>Phone No.: </label>
+                                <p><?php echo $users['user_phone'] ?></P>
+
+                                <!--------------------------------- update2022 ---------------------------------------------------------------------->
+
+                            </form>
+
+                            <form method="post">
+                                <input class="btn btn-primary" type="submit" value="proceed to Check Out">
+                            </form>
+
+                            <?php
+                            $user_id =  $_SESSION['user_id '];
+
+                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                                $user_id =  $_SESSION['user_id '];
+
+                                //insert new order-----------
+                                $adding = $conn->prepare("INSERT INTO `orders`(`order_id`,`order_time`,`user_id`) VALUES (NULL,NULL,'$user_id')");
+                                $adding->execute();
+
+
+                                //get order id ---------------
+                                $q = "SELECT * FROM `orders` WHERE user_id='$user_id' ORDER BY order_time DESC LIMIT 1";
+                                $result = $conn->query($q);
+                                $user = $result->fetch();
+                                $order = $user['order_id'];
+
+                                // gat all product from cart whaer id
+                                $q = "SELECT * FROM `cart_temp` WHERE customer_id='$user_id'";
+                                $result = $conn->query($q);
+                                $user = $result->fetchAll();
+
+                                // insert from cart to order_details
+                                foreach ($user as $med) {
+                                    $pro = $med['product_id'];
+                                    $qu = $med['quantity'];
+                                    $adding = $conn->prepare("INSERT INTO `orders_details`(`order_detials_id`, `order_id`, `product_id`, `quantity`) VALUES (NULL,'$order','$pro','$qu')");
+                                    $adding->execute();
+                                }
+
+                                // delete product from cart after "proceed to Check Out"
+                                $adding = $conn->prepare("DELETE FROM `cart_temp` WHERE customer_id='$user_id'");
+                                $adding->execute();
+                                header("Location:orderplaced.php");
+                            }
+
+                            ?>
+                            <!-- <a class="btn btn-primary" href="orderplaced.php">proceed to Check Out </a> -->
+
+
+                            <!--------------------------------- update2022 ---------------------------------------------------------------------->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="review-payment">
+                <h2>Review & Payment</h2>
+            </div>
+
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr class="cart_menu">
+                            <td></td>
+                            <td class="image">Item</td>
+                            <td class="price">Price</td>
+                            <td class="quantity">Quantity</td>
+                            <td class="total">Total</td>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $user_id =  $_SESSION['user_id '];
+                        // updatr2022 add customer_id='$user_id' to query----------------------------------
+                        $stat = $conn->query("SELECT * FROM cart_temp WHERE  customer_id='$user_id' ");
+                        //--updsate-----------------------------------------------------------------------
+                        $rows = $stat->fetchAll(PDO::FETCH_ASSOC);
+                        $total = 0;
+                        foreach ($rows as $row) :
+                            $total += $row['quantity'] * $row['product_price'];
+                        ?>
+
+
+                            <tr>
+                                <td class="cart_product">
+                                    <a href=""><img src="fwy6zosqphc8hzjk0rgr.webp" alt=""><?php ?></a>
+                                </td>
+                                <td>
+
+                                    <h4><a href=""><?php echo $row['product_name'] ?></a></h4>
+                                </td>
+                                <td class="cart_price">
+                                    <p><?php echo $row['product_price'] ?></p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <div class="cart_quantity_button">
+
+                                        <input class="cart_quantity_input" type="text" name="quantity-" value="<?php echo $row['quantity'] ?>" autocomplete="off" size="2">
+
+                                    </div>
+
+                                </td>
+                                <td class="cart_total">
+                                    <p class="cart_total_price"> <?php echo $row['quantity'] * $row['product_price'] ?></p>
+                                </td>
+                            </tr>
+
+                        <?php
+                        endforeach;
+                        ?>
+
+
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                            <td colspan="2">
+                                <table class="table table-condensed total-result">
+                                    <tr>
+                                        <td>Cart Sub Total</td>
+                                        <td><?= $total ?> JOD </td>
+                                    </tr>
+
+                                    <tr class="shipping-cost">
+                                        <td>Shipping Cost</td>
+                                        <td>Free</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td><span><?= $total ?> JOD </span></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-        <div class="payment-options">
-            <span>
-                <label><input type="checkbox">Cash On Delivery</label>
-            </span>
+    </section>
 
-        </div>
-        </div>
-</section>
-
-  
 </body>
 
 </html>

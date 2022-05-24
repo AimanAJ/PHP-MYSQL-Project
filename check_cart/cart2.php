@@ -1,7 +1,6 @@
 <?php
 session_start();
-
-require "../connect2.php"
+require_once "../connect2.php";
 
 ?>
 
@@ -89,10 +88,11 @@ if ($products_in_cart) {
 if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
 
 
-  
 
-header('Location: orderplaced.php');
-exit;}
+
+    header('Location: orderplaced.php');
+    exit;
+}
 
 ?>
 
@@ -135,11 +135,11 @@ exit;}
         <h1 class="projTitle">This is <span>Your</span> Shopping Cart</h1>
         <div class="heading cf">
             <h1>My Cart</h1>
-            <a href="../shop.php" class="continue">Continue Shopping</a>
+            <a href="../shop/shop.php" class="continue">Continue Shopping</a>
         </div>
         <div class="infoWrap">
             <div class="cartSection">
-                <form action="cart2.php" method="post"  >
+                <form action="cart2.php" method="post">
                     <table class="table">
                         <thead>
                             <tr>
@@ -152,13 +152,30 @@ exit;}
 
                             </tr>
                         </thead>
-                        <tbody class="cartWrap">
-                            <?php if (empty($products)) : ?>
-                                <tr>
-                                    <td colspan="5" style="text-align:center;">You have no products added in your Shopping Cart</td>
-                                </tr>
-                            <?php else : ?>
-                                <?php foreach ($products as $product) : ?>
+                        <?php
+
+
+                        //update2022--add "WHERE customer_id='$user_id'"-----------------------------
+                        $user_id =  $_SESSION['user_id '];
+                        $stat = $conn->query("SELECT * FROM cart_temp WHERE customer_id='$user_id'  ");
+                        //update2022-------------------------------------------------------------------
+
+                        $rows = $stat->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                        <?php if (empty($rows)) : ?>
+                            <tr>
+                                <td colspan="5" style="text-align:center;">You have no products added in your Shopping Cart</td>
+                            </tr>
+                        <?php else :
+
+                        ?>
+                            <tbody class="cartWrap">
+
+                                <?php
+                                $total = 0;
+                                foreach ($rows as $row) :
+                                    $total += $row['quantity'] * $row['product_price'];
+                                ?>
                                     <tr>
                                         <td class="img" scope="row">
 
@@ -166,48 +183,112 @@ exit;}
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="cart2.php?page=product&id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a>
+                                            <a href="cart2.php?page=product&id="><?= $row['product_name'] ?></a>
                                             <br>
 
                                         </td>
-                                        <td class="price">&dollar;<?= $product['product_price'] ?></td>
+                                        <td class="price"><?= $row['product_price'] ?></td>
                                         <td class="quantity">
-                                            <input type="number" name="quantity-<?= $product['product_id'] ?>" value="<?= $products_in_cart[$product['product_id']] ?>" min="1" max="<?= $product['quantity'] ?>" placeholder="Quantity" required>
+                                            <form method="post">
+                                                <input type="number" name="prd_quantity" value="<?= $row['quantity'] ?>" min="1" placeholder="Quantity" required>
+
                                         </td>
-                                        <td class="price">&dollar;<?= $product['product_price'] * $products_in_cart[$product['product_id']] ?></td>
-                                        <td> <a href="cart2.php?page=cart&remove=<?= $product['product_id'] ?>" class="remove">X</a>
-                                            <input class="btn continue" type="submit" value="Update Qnty" name="update" style="background:none ; border:0; color: #ef7828;">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td> <span style="font-weight: bolder;">Subtotal= </span>
-                                            <span  style="font-weight: bolder;">&dollar;<?= $subtotal ?></span>
-                                        </td>
-                                        <td></td>
-
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                    <div class="subtotal cf">
-
-
-                        <a href="checkout.php" class="btn continue"> Place Order</a>
-
-
-                    </div>
-
+                                        <td class="price"><?= $row['quantity'] * $row['product_price'] ?> JOD </td>
+                                        <td>
+                                            <a href="cart2.php?delete_product=<?= $row['product_id'] ?>" class="remove">X</a>
+                                            <input type="hidden" value="<?= $row['product_id'] ?>" name="update_product">
+                                            <input type="submit" name="Update" value="Update" class="btn btn-primary mx-2">
                 </form>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <tr>
+            <form method="post">
+                <td>Coupon</td>
+                <td><input type="text" name="coupon" style=" width:60% "></td>
+                <td><input type="submit" name="check" value="check" class="btn btn-primary" style="background-color :#ef7828 ;"></td>
+            </form>
+            <td>Total Cost order</td>
+            <?php
+            if (isset($_POST['check'])) {
+                $coupon_input = $_POST['coupon'];
+                $stat = $conn->query("SELECT * FROM discount WHERE discount_name = '$coupon_input'");
+                $row = $stat->fetch(PDO::FETCH_ASSOC);
+                if ($row) {
+
+                    $total = $total - ($total * $row['discount_amount']);
+                } else {
+                    echo "<script>alert('This Coupon Does Not Exist')</script>";
+                }
+            }
+
+            ?>
+            <td class="total">
+                <label style="color:#ef7828 ; font-weight:700"><?php if (isset($total)) {
+                                                                    echo $total;
+                                                                } else {
+                                                                    echo 0;
+                                                                } ?> JOD</label>
+            </td>
+        </tr>
+        </tbody>
+
+        </table>
+        <div class="subtotal cf">
+            <!-- -----update2022--alart ------------------------------------------------------------------------------------->
+            <?php
+            if (isset($_SESSION['user_id ']) && $_SESSION['user_id '] != 0) {
+                echo "<a href='checkout.php' class='btn continue'> Place Order</a>";
+            } else {
+            ?>
+
+                <script>
+                    Swal.fire({
+                        title: '<strong> <u>Login</u></strong>',
+                        icon: 'info',
+                        html: 'You have to loged in to continue</b>, ' +
+                            '<a href="../registration/login.php">GO</a> ',
+
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: "<a href='../registration/login.php'><i class='fa fa-thumbs-up'></i> login!</a> ",
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                    })
+                </script>
+
+            <?php } ?>
+
+            <!-- -----------------alart ------------------------------------------------------------------------------------->
+
+
+
+
+
+        </div>
+
+        </form>
             </div>
         </div>
     </div>
 
     </div>
+    <?php
+    if (isset($_GET['delete_product'])) {
+        $delete_prd = $_GET['delete_product'];
+        $stat = $conn->query("DELETE FROM `cart_temp` WHERE product_id='$delete_prd'");
+    }
+    if (isset($_POST['Update'])) {
+        $updateQty = $_POST['prd_quantity'];
+        $update_prd = $_POST['update_product'];
+        echo $update_prd;
+        echo $updateQty;
+        $sql = "UPDATE cart_temp SET quantity='$updateQty' WHERE product_id = '$update_prd'";
+        $stat = $conn->query($sql);
+    }
+    ?>
+
 </body>
 
 </html>

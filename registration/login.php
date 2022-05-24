@@ -1,7 +1,7 @@
 <?php
 
 include "registration.php";
-include_once "../headFoot/header.php";
+// include_once "../headFoot/header.php";
 global $full_up;
 global $email;
 global $password;

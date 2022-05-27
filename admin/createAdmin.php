@@ -15,7 +15,7 @@ require "category_backend.php";
   <body>
   <div></div>
       
-  <div class="container mt-5" style="min-height: 700px; width:50%">
+  <div class="container mt-5" style="min-height: 700px; width:60%">
       <h1>Add New Admin</h1>
      
       <br>
@@ -38,7 +38,7 @@ require "category_backend.php";
 
             
             <div class="form-group">
-            <input type="submit" class="btn btn lg btn-outline-primary" value = "Add" name="submit">
+            <input type="submit" class="btn btn lg btn-primary" value = "Add" name="submit">
             </div>
 </form>
 
@@ -51,6 +51,16 @@ require "category_backend.php";
            $password = $_POST['admin_password'];
 
            add_admin($connect , $name , $email ,$password);
+
+           echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Admin has been added successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
         }
     }
 

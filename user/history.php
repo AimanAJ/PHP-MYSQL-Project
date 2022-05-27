@@ -1,7 +1,8 @@
 <?php 
+session_start();
 require 'user_backend.php';
 
-$test_user = history_orders($connect , 1);
+$test_user = history_orders($conn , 1);
 
 
 $arr1 =[];
@@ -12,7 +13,7 @@ for ($i=0; $i < count($test_user) ; $i++) {
     }
 }
 
-include '../inc/header.php';
+include_once('../headFoot/header.php');
 
 ?>
 
@@ -117,5 +118,5 @@ include '../inc/header.php';
     </div>
 </body>
 </html>
-<?php include_once '../inc/footer.php'; ?>
+<?php include_once('../headFoot/footer.php'); ?>
 

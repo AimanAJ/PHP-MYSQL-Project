@@ -41,7 +41,7 @@ $admin = view_one_admin($connect , $id)
 
             
             <div class="form-group">
-            <input type="submit" class="btn btn lg btn-outline-primary" value = "Add" name="submit">
+            <input type="submit" class="btn btn lg btn-primary" value = "Update" name="submit">
             </div>
 </form>
 
@@ -51,14 +51,17 @@ $admin = view_one_admin($connect , $id)
             $name = $_POST['admin_name'] ; 
             $email = $_POST['admin_email'];
             $password = $_POST['admin_password'];
-
-            echo $id;
-            echo $name;
-            echo $email;
-            echo $password;
-            
-
             update_admin($connect , $name , $email , $password , $id);
+
+            echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Admin has been updated successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
         }
     }
 ?>

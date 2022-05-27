@@ -1,9 +1,14 @@
 <?php
 session_start();
-require "../connect2.php";
-//include_once "../headFoot/header.php";
-//session_destroy();
+require_once "../connect2.php";
+include_once "../headFoot/header.php";
+// 2022-----------------------------------------------------
+include "../ip_address.php";
+// 2022-----------------------------------------------------
+
 $id_user = $_SESSION['user_id '] ?? 0;
+
+
 ?>
 <?php
 // Check to make sure the id parameter is specified in the URL
@@ -33,11 +38,14 @@ if (isset($_GET['id'])) {
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <link rel="stylesheet" href="../css/singleP.css">
+  
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 
@@ -45,12 +53,12 @@ if (isset($_GET['id'])) {
 
 
 <body>
-  <main class="container row">
+  <main class="container">
 
     <!-- Left Column /   Image -->
     <div class="left-column">
 
-      <img src="<?= $product['product_image'] ?>" width="500" height="500" alt="<?= $product['product_name'] ?>">
+      <img src="../admin/image/product_image/<?= $product['product_image'] ?>" width="500" height="400" alt="<?= $product['product_name'] ?>">
     </div>
 
 
@@ -87,7 +95,7 @@ if (isset($_GET['id'])) {
         <form action="" method="post">
           <input type="number" name="quantity" min="1" value="1" placeholder="Quantity" required>
           <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-          <input type="submit" value="Add To Cart" name="add_cart" class="cart-btn" style="display: block; margin:20px;">
+          <input type="submit" value="Add To Cart" name="add_cart" class="cart-btn" style="display: block; margin-top:20px;">
 
         </form>
 
@@ -95,22 +103,25 @@ if (isset($_GET['id'])) {
 
     </div>
 
-    <!----------------update2022 add to cart----------- -->
     <?php
+    // 2022-----------------------------------------------------
+    $ip_address = get_client_ip();
+    // 2022-----------------------------------------------------
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_cart'])) {
 
       if (!empty($_POST['quantity'])) {
 
         $id_prd = $_GET['id'];
-        $id = $_SESSION['user_id '];
+        $id = $_SESSION['user_id '] ?? 0;
         $check = $conn->query("SELECT * FROM cart_temp WHERE product_id = '$id_prd' and customer_id = ' $id' ");
         $row = $check->fetchAll(PDO::FETCH_ASSOC);
         if ($row) {
           echo "<script>alert('this item already added to cart')</script>";
         } else {
 
-          $sqlInsert = "INSERT INTO cart_temp( product_id, product_name, product_price, customer_id ,quantity) VALUES (:prd_id,:prd_name,:prd_price,:cust_id , :qty) ";
+          // 2022-----------------------------------------------------
+          $sqlInsert = "INSERT INTO cart_temp( product_id, product_name, product_price, customer_id, 	customer_ip,quantity) VALUES (:prd_id,:prd_name,:prd_price,:cust_id ,:ip, :qty) ";
 
           $stat = $conn->prepare($sqlInsert);
           $stat->execute([
@@ -118,13 +129,27 @@ if (isset($_GET['id'])) {
             ":prd_name" => $product['product_name'],
             ":prd_price" => $product['product_price'],
             ":cust_id" => $id_user,
+            ":ip" => $ip_address,
             ":qty" => $_POST['quantity']
-            
+            // 2022-----------------------------------------------------
+
           ]);
-          echo "<script>alert('this item added to cart')</script>";
+          echo "<script>
+          Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Item has been added to cart successfully',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      </script>";
         }
       } else {
-        echo "<script>alert('you havt to add quantity')</script>";
+        echo "<script>Swal.fire({
+          icon: 'error',
+          text: 'Item does not added!'
+         
+        })</script>";
       }
     }
 
@@ -132,12 +157,14 @@ if (isset($_GET['id'])) {
 
 
     ?>
+
+
+
+    <!-- Product Pricing -->
+
     </div>
-
-    <!----------------update2022 ---------------------------------------- -->
-    <!-- ------------------------------------- update2022---comment ------------------------------------------------------------------------------------->
-
   </main>
+
   <?php
   $pr_id = $_GET['id'];
 
@@ -145,7 +172,8 @@ if (isset($_GET['id'])) {
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_name ']) && isset($_POST["comment"])) {
     $com = $_POST["comment"];
     if ($com != "") {
-      if ($com != "") {
+      if (isset($_SESSION['user_name ']) && $_SESSION['user_name '] != '') {
+
         $u_name =  $_SESSION['user_name '];
         $pr_di = $_POST["id_comment"];
 
@@ -155,7 +183,21 @@ if (isset($_GET['id'])) {
         $result->bindParam(':product_id', $pr_di);
         $result->execute();
       } else {
-        //echo <script>
+
+        echo " <!-- <script> 
+          Swal.fire({
+            title: '<strong> <u>Login</u></strong>',
+            icon: 'info',
+            html: 'You have to loged in to continue</b>, ' +
+              '<a href='../registration/login.php'>GO</a> ',
+
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: '<a href='../registration/login.php'><i class='fa fa-thumbs-up'></i> login!</a> ',
+            confirmButtonAriaLabel: 'Thumbs up, great!', -->
+          })
+        </script>";
       }
     }
   }
@@ -168,18 +210,18 @@ if (isset($_GET['id'])) {
 
           <form action="" method="post">
 
-            <div class="coment-bottom bg-white p-2 px-4">
+            <div class="coment-bottom bg-white p-2 px-4 mt-5">
               <div class="d-flex flex-row add-comment-section mt-4 mb-4">
 
                 <input type="text" name="comment" class="form-control mr-3" placeholder="Add comment">
 
-                <button class="btn btn-primary" type="submit" value="comment">Comment</button>
+                <button class="btn btn-secondary" type="submit" value="comment">Comment</button>
               </div>
+
 
               <input type="hidden" name="id_comment" value="<?php echo $pr_id; ?>">
 
               <input type="hidden" name="name_comment" value="<?php echo $_SESSION['user_name ']; ?>">
-
           </form>
 
 
@@ -194,11 +236,8 @@ if (isset($_GET['id'])) {
                 <h5 class="mr-2"><?php echo $r['name'];  ?></h5><span class="dot mb-1">
               </div>
               <div class="comment-text-sm"><span> <?php echo $r['comment']; ?></span></div>
-              <div class="reply-section">
-                <div class="d-flex flex-row align-items-center voting-icons">
-                  <hr class="hr">
-                </div>
-              </div>
+              <hr>
+
             </div>
 
           <?php } ?>
@@ -213,11 +252,6 @@ if (isset($_GET['id'])) {
 
 
 
-  <!-- <form>
-
-    <input type="text">
-    <input type="submit">
-  </form> -->
 
 
 
@@ -231,6 +265,16 @@ if (isset($_GET['id'])) {
 
 
 
+  <footer class="footer text-center text-white" style="background-color: rgb(26, 26, 26) ;">
+
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(70, 70, 70, 0.907);">
+      © 2022 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/">FocusZone.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
 </body>
 
 </html>

@@ -27,12 +27,12 @@ $all_categories = select_category($connect);
       <td>
         <form action="index.php?" method="get" style="display:inline-block;">
                 <input type="hidden"  value="<?php echo $all_categories[$i]["category_id"] ?>" name="update">
-                <button type="submit" class="btn btn-sm btn-outline-secondary">edit</button>
+                <button type="submit" class="btn btn-sm btn-secondary">edit</button>
         </form>
 
         <form action="" method="post" style="display:inline-block;">
             <input type="hidden" value="<?php echo $all_categories[$i]["category_id"] ?>" name="delete">
-            <input type="submit" name = "delete1" class="btn btn-sm btn-outline-danger" value="delete">
+            <input type="submit" name = "delete1" class="btn btn-sm btn-danger" value="delete">
       </form>
       </td>
     </tr>
@@ -55,8 +55,17 @@ $all_categories = select_category($connect);
 if(isset($_POST['delete'])){
 
     $id = $_POST['delete'];
-    echo $id;
+   // echo $id;
     delete_category($connect , $id);
+    echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Category has been deleted successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
 }
 ?>
 

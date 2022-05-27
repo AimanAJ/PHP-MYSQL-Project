@@ -1,8 +1,8 @@
 <?php 
-    require 'user_backend.php';
     session_start();
+    require 'user_backend.php';
     
-    $test_user = select_user($conn , $_SESSION['user_id '] );
+    $test_user = select_user($conn , $_SESSION['user_id ']??0);
   
     
     // echo "<pre>";
@@ -101,10 +101,9 @@
     $user_address = $_POST['user_address'];
     $user_phone = $_POST['user_phone'];
 
-    update_user($connect , $user_name ,$user_address ,$user_email ,$user_password ,$user_phone ,2);
-    echo '<script type="text/javascript">
-       window.onload = function () { alert("Update Done"); } 
-    </script>'; 
+    update_user($conn , $user_name ,$user_address ,$user_email ,$user_password ,$user_phone ,$_SESSION['user_id ']);
+    echo "<script>window.location.href = 'http://localhost/php_mysql_project/user/profile.php'</script>";
+
     
 }
 

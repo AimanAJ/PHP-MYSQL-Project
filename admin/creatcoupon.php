@@ -22,6 +22,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $adding->execute();
 
+    echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Coupon has been added successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
+
     // $Ad=$pdo->prepare($adding);
 
 
@@ -42,25 +52,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <body>
   
       
-  <div class="container" style="min-height: 700px;">
-      <h1>CREAT user</h1>
-      <h2><a href="coupons.php">back to coupons</a></h2>
+  <div class="container" style="min-height: 700px;width:60%">
+      <h1>CREAT User</h1>
       <br>
       <form method="post"  enctype='multipart/form-data'>
   <div class="form-group">
-    <label for="exampleFormControlInput1">coupon name</label>
+    <label for="exampleFormControlInput1">Coupon Name</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" name="name" required>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlInput1">coupon amount</label>
-    <input type="number" class="form-control" id="exampleFormControlInput1" name="address"  required>
+    <label for="exampleFormControlInput1">Coupon Amount</label>
+    <input type="number" step=".01" class="form-control" id="exampleFormControlInput1" name="address"  required>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlInput1">active</label>
+    <label for="exampleFormControlInput1">Active</label>
     <input type="number"  class="form-control" id="exampleFormControlInput1" name="email" required>
   </div>
   <div class="form-group">
-  <button type="submit" class="btn btn lg btn-outline-primary">add</button>
+  <button type="submit" class="btn btn lg btn-primary">Add</button>
   </div>
 </form>
 

@@ -4,7 +4,7 @@ include "fun.php";
 include "../connect.php";
 session_start();
 
-//session_destroy();
+// session_destroy();
 
 
 $_SESSION['full_up'] = 0;;
@@ -61,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-
     //***************************************************************************************************************************** */
 
 
@@ -89,15 +88,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $result->execute([':user_email' => $email]);
                 if ($result) {
 
-                    $login = "SELECT user_id,user_name  FROM `userstable` where user_email='$email' and user_password='$password'";
+                    $login = "SELECT user_id ,user_name FROM `userstable` where user_email='$email' and user_password='$password'";
                     $result = $connect->query($login);
                     $user = $result->fetch();
 
                     $_SESSION['user_id '] = $user['user_id'];
-
-                    //update2022-------------------------------------------------------------
                     $_SESSION['user_name '] = $user['user_name'];
-                    //update2022----------------------------------------------------------------
                     header('location: ../home.php');
                 } else {
                     echo "faild login";
@@ -106,14 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             if (isset($_SESSION['full_up'])) {
                 $_SESSION['full_up'] = 1;
-            }
+              }
         }
     }
 }
-
-
-// $ar = array("one" => "1", "two" => "2", "three" => "3");
-// foreach ($ar as $value => $key) {
-//     echo $value;
-// }
-// $_COOKIE["a"] = 215;

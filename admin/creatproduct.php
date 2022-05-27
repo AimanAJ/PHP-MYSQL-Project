@@ -48,6 +48,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $adding->execute();
 
+    echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Product has been added successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
+
     // $Ad=$pdo->prepare($adding);
 
 
@@ -68,29 +78,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <body>
  
       
-  <div class="container" style="min-height: 700px;">
+  <div class="container" style="min-height: 700px; width:60%">
       <h1>CREAT PRODUCT</h1>
-      <h2><a href="products.php">back to products</a></h2>
       <br>
       <form method="post"  enctype='multipart/form-data'>
   <div class="form-group">
-    <label for="exampleFormControlInput1">title</label>
+    <label for="exampleFormControlInput1">Title</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" name="title">
   </div>
   <div class="form-group">
-    <label for="exampleFormControlInput1">price</label>
+    <label for="exampleFormControlInput1">Price</label>
     <input type="number" step=".1" class="form-control" id="exampleFormControlInput1" name="price" >
   </div>
   <div class="form-group">
-    <label for="exampleFormControlTextarea1">description</label>
+    <label for="exampleFormControlTextarea1">Description</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlInput1">image</label>
+    <label for="exampleFormControlInput1">Image</label>
     <input type="file" class="form-control" " name="image" >
   </div>
   <div class="form-group">
-    <label for="exampleFormControlInput1">categury</label>
+    <label for="exampleFormControlInput1">Category</label>
     <select name="cat" >
     <?php foreach($products as $i => $product): ?>
     <option value="<?php echo $product['category_id'] ?>" > <?php echo $product['category_name'] ?> </option>
@@ -98,7 +107,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
    </select>
   </div>
   <div class="form-group">
-  <button type="submit" class="btn btn lg btn-outline-primary">add</button>
+  <button type="submit" class="btn btn lg btn-primary">Add</button>
   </div>
 </form>
 

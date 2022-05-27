@@ -56,6 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $statement->execute();
 
+        echo "<script>
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'User has been updated successfully',
+        showConfirmButton: false,
+        timer: 2500
+      })
+    </script>";
+
+
     }
 
 }

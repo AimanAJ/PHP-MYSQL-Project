@@ -1,5 +1,5 @@
 <?php
-include "../headFoot/header.php";
+include_once "../headFoot/header.php";
 
 require "../connect2.php";
 ?>
@@ -20,8 +20,8 @@ require "../connect2.php";
 <style>
 
 
-  .container{
-   margin-top: 50px;
+  .container1{
+   /* margin-top: 50px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,7 +53,7 @@ require "../connect2.php";
 
 
 
-  <section class="container ">
+  <section class="container1 ">
 
 <?php 
 if (isset($_POST['emptyCart'])){

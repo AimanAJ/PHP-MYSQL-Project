@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once "../connect2.php";
+include_once "../headFoot/header.php";
+include "../ip_address.php";
 
 ?>
 
@@ -106,7 +108,7 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -153,12 +155,11 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                             </tr>
                         </thead>
                         <?php
-
-
-                        //update2022--add "WHERE customer_id='$user_id'"-----------------------------
-                        $user_id =  $_SESSION['user_id '];
-                        $stat = $conn->query("SELECT * FROM cart_temp WHERE customer_id='$user_id'  ");
-                        //update2022-------------------------------------------------------------------
+                        //2022-----------------------------
+                        $ip_address = get_client_ip();
+                        $user_id =  $_SESSION['user_id '] ?? 0;
+                        $stat = $conn->query("SELECT * FROM cart_temp WHERE customer_id='$user_id' or customer_ip='$ip_address'");
+                        //2022-------------------------------------------------------------------
 
                         $rows = $stat->fetchAll(PDO::FETCH_ASSOC);
                         ?>
@@ -171,10 +172,13 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                         ?>
                             <tbody class="cartWrap">
 
+                                <!-- // update 23/5/2022 -->
                                 <?php
+                                $total_coupon = 0;
                                 $total = 0;
                                 foreach ($rows as $row) :
-                                    $total += $row['quantity'] * $row['product_price'];
+                                    $total_coupon += $row['quantity'] * $row['product_price'];
+                                    $total = $total_coupon;
                                 ?>
                                     <tr>
                                         <td class="img" scope="row">
@@ -195,9 +199,9 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                                         </td>
                                         <td class="price"><?= $row['quantity'] * $row['product_price'] ?> JOD </td>
                                         <td>
-                                            <a href="cart2.php?delete_product=<?= $row['product_id'] ?>" class="remove">X</a>
+                                            <a href="cart2.php?delete_product=<?= $row['product_id'] ?>" class="btn btn-danger p-1">Delete</a>
                                             <input type="hidden" value="<?= $row['product_id'] ?>" name="update_product">
-                                            <input type="submit" name="Update" value="Update" class="btn btn-primary mx-2">
+                                            <input type="submit" name="Update" value="Update" class="btn btn-secondary mx-2" style="background-color :#ef7828 ;">
                 </form>
                 </td>
                 </tr>
@@ -207,9 +211,11 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
             <form method="post">
                 <td>Coupon</td>
                 <td><input type="text" name="coupon" style=" width:60% "></td>
-                <td><input type="submit" name="check" value="check" class="btn btn-primary" style="background-color :#ef7828 ;"></td>
+                <td><input type="submit" name="check" value="check" class="btn btn-secondary" style="background-color :#ef7828 ;"></td>
             </form>
+
             <td>Total Cost order</td>
+
             <?php
             if (isset($_POST['check'])) {
                 $coupon_input = $_POST['coupon'];
@@ -217,9 +223,23 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                 $row = $stat->fetch(PDO::FETCH_ASSOC);
                 if ($row) {
 
-                    $total = $total - ($total * $row['discount_amount']);
+                    $total_coupon = $total - ($total * $row['discount_amount']);
+
+                    echo "<script>
+                                                    Swal.fire({
+                                                    position: 'top-end',
+                                                    icon: 'success',
+                                                    title: 'Your work has been saved',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                  })
+                                                </script>";
                 } else {
-                    echo "<script>alert('This Coupon Does Not Exist')</script>";
+                    echo "<script>Swal.fire({
+                                                    icon: 'error',
+                                                    text: 'The Coupon Does Not Exist!'
+                                                   
+                                                  })</script>";
                 }
             }
 
@@ -227,11 +247,28 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
             <td class="total">
                 <label style="color:#ef7828 ; font-weight:700"><?php if (isset($total)) {
                                                                     echo $total;
+                                                                    $_SESSION['total'] = $total;
                                                                 } else {
                                                                     echo 0;
                                                                 } ?> JOD</label>
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total After Coupon</td>
+            <td>
+                <label style="color:#ef7828 ; font-weight:700"><?php if (isset($total_coupon)) {
+                                                                    echo $total_coupon;
+                                                                    $_SESSION['total_coupon'] = $total_coupon;
+                                                                } else {
+                                                                    echo 0;
+                                                                } ?> JOD</label>
+
+            </td>
+        </tr>
+        <!-- end update -->
         </tbody>
 
         </table>
@@ -278,15 +315,19 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
     if (isset($_GET['delete_product'])) {
         $delete_prd = $_GET['delete_product'];
         $stat = $conn->query("DELETE FROM `cart_temp` WHERE product_id='$delete_prd'");
+
+        echo "<script>window.location.href = 'http://localhost/php_mysql_project/check_cart/cart2.php'</script>";
     }
     if (isset($_POST['Update'])) {
         $updateQty = $_POST['prd_quantity'];
         $update_prd = $_POST['update_product'];
-        echo $update_prd;
-        echo $updateQty;
+
         $sql = "UPDATE cart_temp SET quantity='$updateQty' WHERE product_id = '$update_prd'";
         $stat = $conn->query($sql);
+
+        echo "<script>window.location.href = 'http://localhost/php_mysql_project/check_cart/cart2.php'</script>";
     }
+
     ?>
 
 </body>

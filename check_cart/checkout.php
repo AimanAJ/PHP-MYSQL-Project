@@ -1,14 +1,17 @@
 <?php
 
 
-
+include "../ip_address.php";
 session_start();
 $sess = $_SESSION['user_id '] ?? 3;
 
 require "../connect2.php";
 
 
-include_once "../headFoot/header.php";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+} else {
+    include_once "../headFoot/header.php";
+}
 
 // echo "<pre>";
 // print_r($arr_quantity);
@@ -26,10 +29,10 @@ $stmt = $conn->query("SELECT * FROM userstable WHERE user_id='$sess'");
 $users = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Send the user to the place order page if they click the Place Order button, also the cart should not be empty
-if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-    header('Location: orderplaced.php');
-    exit;
-}
+// if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+//     header('Location: orderplaced.php');
+//     exit;
+// }
 
 
 // Update product quantities in cart if the user clicks the "Update" button on the shopping cart page
@@ -128,20 +131,23 @@ $subtotal = 0.00;
                                 <label>Phone No.: </label>
                                 <p><?php echo $users['user_phone'] ?></P>
 
-                                <!--------------------------------- update2022 ---------------------------------------------------------------------->
+
 
                             </form>
 
+
                             <form method="post">
+                                <input type="hidden" value="out" name="out">
                                 <input class="btn btn-primary" type="submit" value="proceed to Check Out">
                             </form>
 
                             <?php
                             $user_id =  $_SESSION['user_id '];
-
+                            $ip_address = get_client_ip();
+                           // echo  $user_id;
                             if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-                                $user_id =  $_SESSION['user_id '];
+                               // $user_id =  $_SESSION['user_id '];
 
                                 //insert new order-----------
                                 $adding = $conn->prepare("INSERT INTO `orders`(`order_id`,`order_time`,`user_id`) VALUES (NULL,NULL,'$user_id')");
@@ -154,8 +160,8 @@ $subtotal = 0.00;
                                 $user = $result->fetch();
                                 $order = $user['order_id'];
 
-                                // gat all product from cart whaer id
-                                $q = "SELECT * FROM `cart_temp` WHERE customer_id='$user_id'";
+                                // gat all product from cart whaer id = user_id
+                                $q = "SELECT * FROM `cart_temp` WHERE customer_id='$user_id' or customer_ip='$ip_address'";
                                 $result = $conn->query($q);
                                 $user = $result->fetchAll();
 
@@ -168,7 +174,7 @@ $subtotal = 0.00;
                                 }
 
                                 // delete product from cart after "proceed to Check Out"
-                                $adding = $conn->prepare("DELETE FROM `cart_temp` WHERE customer_id='$user_id'");
+                                $adding = $conn->prepare("DELETE FROM `cart_temp` WHERE customer_id='$user_id' or customer_ip='$ip_address'");
                                 $adding->execute();
                                 header("Location:orderplaced.php");
                             }
@@ -177,7 +183,12 @@ $subtotal = 0.00;
                             <!-- <a class="btn btn-primary" href="orderplaced.php">proceed to Check Out </a> -->
 
 
-                            <!--------------------------------- update2022 ---------------------------------------------------------------------->
+
+
+
+
+
+
 
                         </div>
                     </div>
@@ -206,7 +217,6 @@ $subtotal = 0.00;
                         $user_id =  $_SESSION['user_id '];
                         // updatr2022 add customer_id='$user_id' to query----------------------------------
                         $stat = $conn->query("SELECT * FROM cart_temp WHERE  customer_id='$user_id' ");
-                        //--updsate-----------------------------------------------------------------------
                         $rows = $stat->fetchAll(PDO::FETCH_ASSOC);
                         $total = 0;
                         foreach ($rows as $row) :
@@ -228,7 +238,7 @@ $subtotal = 0.00;
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
 
-                                        <input class="cart_quantity_input" type="text" name="quantity-" value="<?php echo $row['quantity'] ?>" autocomplete="off" size="2">
+                                        <input disabled class="cart_quantity_input" type="text" name="quantity-" value="<?php echo $row['quantity'] ?>" autocomplete="off" size="2">
 
                                     </div>
 
@@ -257,14 +267,28 @@ $subtotal = 0.00;
                                         <td>Free</td>
                                     </tr>
                                     <tr>
-                                        <td>Total</td>
-                                        <td><span><?= $total ?> JOD </span></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
 
-                    </tbody>
+                                    <tr class="shipping-cost">
+                                        <td>After Coupon</td>
+                                        <td><?php echo $_SESSION['total_coupon'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td><span><?php
+                                                    if ($_SESSION['total_coupon'] == $total) {
+                                                        echo $total;
+                                                    } else {
+                                                        echo $_SESSION['total_coupon'];
+                                                    }
+                                                    ?> JOD </span></td>
+                                    </tr>
+
+                        </tr>
+                </table>
+                </td>
+                </tr>
+
+                </tbody>
                 </table>
             </div>
 

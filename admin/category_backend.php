@@ -92,4 +92,109 @@ function update_admin($connect ,$name ,$email, $password , $id){
     ]);
 }
 
-?>
+function select_orders($connect){
+    $sql_select = "SELECT * FROM orders";
+    $stat = $connect->query($sql_select);
+    $row = $stat->fetchAll(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+function select_orders_id($connect,$i){
+    $sql_select = "SELECT * FROM orders WHERE order_id  = $i";
+    $stat = $connect->query($sql_select);
+    $row = $stat->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+function move($connect, $id){
+    $order = select_orders_id($connect,$id);   
+    $i1 = $order['order_id'];
+    $i2 = $order['order_time'];
+    $i3 = $order['user_id'];
+
+    $adding = $connect->prepare("INSERT INTO `paid_order`(`order_id`, `order_time`, `user_id`) VALUES ('$i1','$i2','$i3')");
+    $adding->execute();
+}
+
+function delete_move($connect , $id){
+    $sql_delete = "DELETE FROM orders WHERE order_id  = :id";
+    $stat = $connect->prepare($sql_delete);
+    $stat->execute([
+        ":id"=>$id
+    ]);
+
+
+
+}
+
+
+
+function user_name($connect , $i){
+    $sql_select = "SELECT user_name FROM userstable WHERE user_id = $i";
+    $stat = $connect->query($sql_select);
+    $row = $stat->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+function select_orders_details($connect , $i){
+    $sql_select = "SELECT * FROM orders_details WHERE order_id = $i";
+    $stat = $connect->query($sql_select);
+    $row = $stat->fetchAll(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+
+function select_product($connect , $i){
+    $sql_select = "SELECT * FROM products WHERE product_id = $i";
+    $stat = $connect->query($sql_select);
+    $row = $stat->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+
+
+
+function delete_order($connect , $id){
+    $sql_delete = "DELETE FROM orders WHERE order_id  = :id";
+    $stat = $connect->prepare($sql_delete);
+    $stat->execute([
+        ":id"=>$id
+    ]);
+
+    $sql_delete = "DELETE FROM orders_details WHERE order_id  = :id";
+    $stat = $connect->prepare($sql_delete);
+    $stat->execute([
+        ":id"=>$id
+    ]);
+
+
+}
+
+function delete_paid_order($connect , $id){
+    $sql_delete = "DELETE FROM paid_order WHERE order_id  = :id";
+    $stat = $connect->prepare($sql_delete);
+    $stat->execute([
+        ":id"=>$id
+    ]);
+
+    $sql_delete = "DELETE FROM orders_details WHERE order_id  = :id";
+    $stat = $connect->prepare($sql_delete);
+    $stat->execute([
+        ":id"=>$id
+    ]);
+
+
+}
+
+function select_paid_orders($connect){
+    $sql_select = "SELECT * FROM paid_order";
+    $stat = $connect->query($sql_select);
+    $row = $stat->fetchAll(PDO::FETCH_ASSOC);
+
+    return $row;
+}

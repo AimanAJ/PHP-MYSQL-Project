@@ -121,7 +121,16 @@ $cate = $pro->fetchALL(PDO::FETCH_ASSOC);
 
 
         $statement->execute();
-        header("Location:index.php?upadteproduct=$id.php");
+        echo "<script>
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Product has been updated successfully',
+        showConfirmButton: false,
+        timer: 2500
+      })
+    </script>";
+      
     }
 
 }

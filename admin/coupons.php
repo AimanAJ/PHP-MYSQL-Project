@@ -25,7 +25,6 @@ $products=$pdo->query($ana);
 
       <div class="container" style="min-height: 700px;">
       <h1> COUPONS PAGE </h1>
-      <a href="creatcoupon.php" class="btn btn btn-success">creat</a>
       <br>
 
       <table class="table table-striped">
@@ -58,11 +57,11 @@ $products=$pdo->query($ana);
 
       <form action="index.php" method="get" style="display:inline-block;">
         <input type="hidden" value=<?php echo $product["discount_id"] ?> name="updatecoupon">
-        <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <button type="submit" class="btn btn-sm btn-secondary">Edit</button>
       </form>
       <form action="" method="post" style="display:inline-block;">
             <input type="hidden" value="<?php echo $product["discount_id"] ?>" name="deletecoupon">
-            <input type="submit" name ="delete1" class="btn btn-sm btn btn-dange" value="delete">
+            <input type="submit" name ="delete1" class="btn btn-sm btn btn-danger" value="delete">
       </form>
 
       </td>
@@ -81,6 +80,16 @@ $id = $_POST['deletecoupon'];
 echo $id;
 $sqlDelete = "DELETE FROM discount WHERE discount_id = '$id'";
 $pdo->exec($sqlDelete);
+
+echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Coupon has been daleted successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
 
 }
 ?>

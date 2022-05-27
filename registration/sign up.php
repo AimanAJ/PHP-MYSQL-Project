@@ -126,10 +126,8 @@ $full_up = 0;
           ?>
 
           <?php
-          if ($_SESSION['full_up'] == 1) {
-            if (isset($_SESSION['full_up'])) {
-              $_SESSION['full_up'] = 0;
-            }
+          if ($full_up) {
+            $full_up = 0;
             echo "<label style='color:red ;'>You have to fill all field </label>";
           }
           ?>

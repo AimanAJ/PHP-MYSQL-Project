@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include_once "../headFoot/header.php";
  
 require '../connect2.php';
@@ -46,11 +46,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-	<section id="advertisement">
-		<div class="container">
-			<img src="images/shop/advertisement.jpg" alt="" />
-		</div>
-	</section>
 
 	<section>
 		<div class="container">
@@ -108,7 +103,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				<div class="col-sm-9 padding-right">
 					<div class="features_items">
 						<!--features_items-->
-						<h2 class="title text-center">Featured Items</h2>
+						<h2 class="title text-center">Fitness Clothing</h2>
 
 						<?php foreach ($products as $product):?>
 						<div class="col-sm-4">
@@ -116,7 +111,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 								<div class="single-products">
 									<div class="productinfo text-center">
 									
-									<img src="<?= $product['product_image']?>" alt="<?= $product['product_name']?>" />
+									<img src="../admin/image/product_image/<?=$product['product_image'] ?>" alt="<?= $product['product_name']?>" />
 
 										
 										<h2><?php echo $product['product_price']?></h2>

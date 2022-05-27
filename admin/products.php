@@ -36,7 +36,7 @@ $products=$pdo->query($ana);
 
       <div class="container" style="min-height: 700px;">
         <h1> PRODUCTS PAGE </h1>
-        <a href="creatproduct.php" class="btn btn btn-success">creat</a>
+
       <br>
 
       <table class="table table-striped">
@@ -70,11 +70,11 @@ $products=$pdo->query($ana);
 
       <form action="index.php" method="get" style="display:inline-block;">
       <input type="hidden" value=<?php echo $product["product_id"] ?> name="upadteproduct">
-      <button type="submit" class="btn btn-sm btn-outline-secondary">edit</button>
+      <button type="submit" class="btn btn-sm btn-secondary">edit</button>
       </form>
       <form action="" method="post" style="display:inline-block;">
             <input type="hidden" value="<?php echo $product["product_id"] ?>" name="deleteproduct">
-            <input type="submit" name ="delete1" class="btn btn-sm btn btn-dange" value="delete">
+            <input type="submit" name ="delete1" class="btn btn-sm btn btn-danger" value="delete">
       </form>
 
       </td>
@@ -93,7 +93,17 @@ if(isset($_POST['delete1'])){
     echo $id;
     $sqlDelete = "DELETE FROM products WHERE product_id = '$id'";
     $delete = $pdo->exec($sqlDelete);
-    delete_category($connect , $id);
+
+    echo "<script>
+    Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Product has been deleted successfully',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>";
+
 }
 ?>
 

@@ -2,9 +2,8 @@
 
 
 require_once 'connect2.php';
-
-?>
-<?php
+session_start();
+$userId = $_SESSION['user_id '] ?? 0;
 
 $stmt = $conn->query('SELECT * FROM categories ORDER BY category_id ASC ');
 // $stmt->execute();
@@ -74,20 +73,19 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="home.css">
 
 
-<style>
-  
-@media screen and (max-width: 768px) {
+  <style>
+    @media screen and (max-width: 768px) {
 
-.logo {
+      .logo {
 
- display: none;
-  
+        display: none;
 
 
-}
 
-}
-</style>
+      }
+
+    }
+  </style>
 
 
 
@@ -113,17 +111,24 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <a href="http://localhost/php_mysql_project/shop/shop.php">Shop</a>
             </li>
             <li>
-              <a href="http://localhost/php_mysql_project/check_cart/cart2.php">Cart</a>
-            </li>
-            <li>
               <a href="http://localhost/php_mysql_project/aboutus.php">About Us</a>
             </li>
             <li>
               <a href="http://localhost/php_mysql_project/contact-us.php">Contact Us</a>
             </li>
-            <li>
-              <a href="http://localhost/php_mysql_project/check_cart/cart2.php">Profile</a>
-            </li>
+
+            <?php
+            //redirect link
+            $link = "HTTP://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            //add check if user loged in or not
+            if ($userId != 0) {
+              echo "<li><a href='registration/logout.php'></i>Logout</a></li>";
+              echo "<li><a href='user/profile.php'>Profile</a></li>";
+            } else {
+              echo "<li><a href='registration/login.php?continue=" . $link . "'> Login</a></li>";
+              echo "<li><a href='registration/sign up.php'></i> Register</a></li>";
+            }
+            ?>
 
 
           </ul>
@@ -267,7 +272,7 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <b>Why Purchase Our Products?</b>
             </h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?
             </p>
           </div>
           <div class="column-33">
@@ -288,7 +293,7 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <b>How Can You Contact Us?</b>
             </h1>
             <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?</p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam id quibusdam distinctio commodi tempore mollitia asperiores a architecto aliquid dolores, harum eveniet veritatis quia, magni suscipit eum corporis quod?</p>
           </div>
         </div>
       </div>
@@ -297,12 +302,12 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
   <footer id="footer">
-    
+
     <div class="footer-widget">
       <div class="container">
         <div class="row p-2">
-        
-          
+
+
           <div class="col-sm-2">
             <div class="single-widget">
               <h2>Quick Shop</h2>
@@ -310,12 +315,12 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li><a href="http://localhost/php_mysql_project/shop/cat1.php">Fitness Equipment</a></li>
                 <li><a href="http://localhost/php_mysql_project/shop/cat2.php">Outdoor Equipment</a></li>
                 <li><a href="http://localhost/php_mysql_project/shop/cat3.php">Fitness Clothing</a></li>
-               
+
               </ul>
             </div>
-            
+
           </div>
-        
+
           <div class="col-sm-2">
             <div class="single-widget">
               <h2>Quick Access</h2>
@@ -324,7 +329,7 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li><a href="http://localhost/php_mysql_project/shop/shop.php">Shop</a></li>
                 <li><a href="http://localhost/php_Mysql_project/aboutus.php">About</a></li>
                 <li><a href="http://localhost/php_mysql_project/contact-us.php">Contact Us</a></li>
-              
+
               </ul>
             </div>
           </div>
@@ -355,7 +360,7 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </footer>
   <!--/Footer-->
 
- 
+
 
 
   <script>
@@ -386,6 +391,6 @@ $cats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </html>
 
-<?php 
+<?php
 // include_once "../php_Mysql_project/headFoot/footer.php"
- ?>
+?>

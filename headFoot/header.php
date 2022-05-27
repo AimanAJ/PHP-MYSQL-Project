@@ -1,4 +1,5 @@
-<?php //session_start();?>
+<?php //session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -66,125 +67,123 @@
 		<!--header-->
 		<div class="header_top">
 			<!--header_top-->
-			
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="contactinfo">
-							<ul class="nav nav-pills ">
-								<li><a href="#"><i class="fa fa-phone"></i> +962 77 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> FocusZone@gmail.com</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="social-icons pull-right ">
-							<ul class="nav navbar-nav col d-flex flex-row">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-							</ul>
-						</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="contactinfo">
+						<ul class="nav nav-pills ">
+							<li><a href="#"><i class="fa fa-phone"></i> +962 77 01 88 821</a></li>
+							<li><a href="#"><i class="fa fa-envelope"></i> FocusZone@gmail.com</a></li>
+						</ul>
 					</div>
 				</div>
-			
+				<div class="col-sm-6">
+					<div class="social-icons pull-right ">
+						<ul class="nav navbar-nav col d-flex flex-row">
+							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+							<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+							<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!--/header_top-->
 
 		<div class="header-middle">
 			<!--header-middle-->
-			
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="http://localhost/php_mysql_project/home.php"><img src="Focus Zone-logos_black.png" width="200px" height="100px" alt="" /></a>
-						</div>
-						<div class="btn-group pull-right">
-							<div class="btn-group">
 
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-
-							<div class="btn-group">
-
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>
-						</div>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="logo pull-left">
+						<a href="http://localhost/php_mysql_project/home.php"><img src="Focus Zone-logos_black.png" width="200px" height="100px" alt="" /></a>
 					</div>
-					<div class="col-sm-8">
-						<div class="shop-menu pull-right">
-							<ul class="nav navbar-nav col d-flex flex-row">
-								<!-- <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
-		
-								<li><a href="http://localhost/php_mysql_project/check_cart/cart2.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<?php
-								//add check if user loged in or not
-								
-								// session_start();
-								$userId=$_SESSION['user_id ']?? 0;
+					<div class="btn-group pull-right">
+						<div class="btn-group">
 
-								if (isset($userId) && $userId != 0) {
-									echo "<li><a href='http://localhost/php_mysql_project/check_cart/checkout.php'><i class='fa fa-crosshairs'></i> Checkout</a></li>";
-									echo "<li><a href='../registration/logout.php'><i class='fa fa-lock'></i>logout</a></li>";
-									echo "<li><a href='../user/profile.php'><i class='fa fa-user'></i>profile</a></li>";
+							<ul class="dropdown-menu">
+								<li><a href="#">Canada</a></li>
+								<li><a href="#">UK</a></li>
+							</ul>
+						</div>
 
-								} else {
-									echo "<li><a href='../registration/login.php'><i class='fa fa-lock'></i> Login</a></li>";
-									echo "<li><a href='../registration/sign up.php'><i class='fa fa-lock'></i> Register</a></li>";
-								}
-								?>
-								
-								
+						<div class="btn-group">
 
+							<ul class="dropdown-menu">
+								<li><a href="#">Canadian Dollar</a></li>
+								<li><a href="#">Pound</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
-			
+				<div class="col-sm-8">
+					<div class="shop-menu pull-right">
+						<ul class="nav navbar-nav col d-flex flex-row">
+							<!-- <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
+
+							<li><a href="http://localhost/php_mysql_project/check_cart/cart2.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+							<?php
+							//redirect link
+							$link = "HTTP://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+							$userId = $_SESSION['user_id '] ?? 0;
+							//add check if user loged in or not
+							if (isset($userId) && $userId != 0) {
+								echo "<li><a href='http://localhost/php_mysql_project/check_cart/checkout.php'><i class='fa fa-crosshairs'></i> Checkout</a></li>";
+								echo "<li><a href='../registration/logout.php'><i class='fa fa-lock'></i>logout</a></li>";
+								echo "<li><a href='../user/profile.php'><i class='fa fa-user'></i>profile</a></li>";
+							} else {
+								echo "<li><a href='../registration/login.php?continue=" . $link . "'><i class='fa fa-lock'></i> Login</a></li>";
+								echo "<li><a href='../registration/sign up.php'><i class='fa fa-lock'></i> Register</a></li>";
+							}
+							?>
+
+
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!--/header-middle-->
 
 		<div class="header-bottom">
 			<!--header-bottom-->
-			
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<div class="mainmenu pull-left">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="http://localhost/php_mysql_project/home.php" class="active">Home</a></li>
-								<li class="dropdown"><a href="http://localhost/php_mysql_project/shop/shop.php">Shop<i class="fa fa-angle-down"></i></a>
-									<ul role="menu" class="sub-menu">
-										<li><a href="http://localhost/php_mysql_project/shop/cat1.php">Fitness Equipment</a></li>
-										<li><a href="http://localhost/php_mysql_project/shop/cat2.php">Outdoor Equipment</a></li>
-										<li><a href="http://localhost/php_mysql_project/shop/cat3.php">Fitness Clothing </a></li>
 
-									</ul>
-								</li>
-
-								<li><a href="http://localhost/php_Mysql_project/aboutus.php">About Us</a></li>
-								<li><a href="http://localhost/php_mysql_project/contact-us.php">Contact Us</a></li>
-							</ul>
-						</div>
+			<div class="row">
+				<div class="col-sm-9">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
 					</div>
+					<div class="mainmenu pull-left">
+						<ul class="nav navbar-nav collapse navbar-collapse">
+							<li><a href="http://localhost/php_mysql_project/home.php" class="active">Home</a></li>
+							<li class="dropdown"><a href="http://localhost/php_mysql_project/shop/shop.php">Shop<i class="fa fa-angle-down"></i></a>
+								<ul role="menu" class="sub-menu">
+									<li><a href="http://localhost/php_mysql_project/shop/cat1.php">Fitness Equipment</a></li>
+									<li><a href="http://localhost/php_mysql_project/shop/cat2.php">Outdoor Equipment</a></li>
+									<li><a href="http://localhost/php_mysql_project/shop/cat3.php">Fitness Clothing </a></li>
 
+								</ul>
+							</li>
+
+							<li><a href="http://localhost/php_Mysql_project/aboutus.php">About Us</a></li>
+							<li><a href="http://localhost/php_mysql_project/contact-us.php">Contact Us</a></li>
+						</ul>
+					</div>
 				</div>
-			
+
+			</div>
+
 		</div>
 		</div>
 		<!--/header-bottom-->

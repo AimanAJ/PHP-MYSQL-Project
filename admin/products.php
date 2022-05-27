@@ -70,11 +70,11 @@ $products=$pdo->query($ana);
 
       <form action="index.php" method="get" style="display:inline-block;">
       <input type="hidden" value=<?php echo $product["product_id"] ?> name="upadteproduct">
-      <button type="submit" class="btn btn-sm btn-secondary">edit</button>
+      <button type="submit" class="btn btn-sm btn-secondary">Edit</button>
       </form>
       <form action="" method="post" style="display:inline-block;">
             <input type="hidden" value="<?php echo $product["product_id"] ?>" name="deleteproduct">
-            <input type="submit" name ="delete1" class="btn btn-sm btn btn-danger" value="delete">
+            <input type="submit" name ="delete1" class="btn btn-sm btn btn-danger" value="Delete">
       </form>
 
       </td>
@@ -102,6 +102,13 @@ if(isset($_POST['delete1'])){
     showConfirmButton: false,
     timer: 2500
   })
+</script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?view_product'
+  }, '1000')
 </script>";
 
 }

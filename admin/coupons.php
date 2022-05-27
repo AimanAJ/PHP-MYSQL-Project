@@ -61,7 +61,7 @@ $products=$pdo->query($ana);
       </form>
       <form action="" method="post" style="display:inline-block;">
             <input type="hidden" value="<?php echo $product["discount_id"] ?>" name="deletecoupon">
-            <input type="submit" name ="delete1" class="btn btn-sm btn btn-danger" value="delete">
+            <input type="submit" name ="delete1" class="btn btn-sm btn btn-danger" value="Delete">
       </form>
 
       </td>
@@ -89,6 +89,13 @@ echo "<script>
     showConfirmButton: false,
     timer: 2500
   })
+</script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?view_coupon'
+  }, '1000')
 </script>";
 
 }

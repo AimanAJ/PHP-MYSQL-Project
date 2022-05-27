@@ -176,6 +176,7 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                                 <?php
                                 $total_coupon = 0;
                                 $total = 0;
+                                
                                 foreach ($rows as $row) :
                                     $total_coupon += $row['quantity'] * $row['product_price'];
                                     $total = $total_coupon;
@@ -183,7 +184,7 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                                     <tr>
                                         <td class="img" scope="row">
 
-                                            <img src="../fwy6zosqphc8hzjk0rgr.webp" width="50" height="50" alt="<?= $product['product_name'] ?>">
+                                            <!-- <img src="../admin/image/product_image/<?php $row['product_image'] ?>" width="50" height="50" alt="<?= $product['product_name'] ?>"> -->
                                             </a>
                                         </td>
                                         <td>

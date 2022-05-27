@@ -32,6 +32,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   })
 </script>";
 
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?add_coupon'
+  }, '1000')
+</script>";
     // $Ad=$pdo->prepare($adding);
 
 

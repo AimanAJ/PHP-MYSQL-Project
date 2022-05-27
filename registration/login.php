@@ -33,7 +33,7 @@ global $password;
 
         <!--------------------------------------------------- email ---------------------------------------->
 
-        <form action="#" class="sign-in-form" method="post">
+        <form action="registration.php?continue=<?php echo $_GET['continue'];?>" class="sign-in-form" method="post">
           <h2 class="title">Login</h2>
           <div class="input-field">
             <i class="fas fa-envelope"></i>

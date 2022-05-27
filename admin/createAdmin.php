@@ -61,6 +61,13 @@ require "category_backend.php";
     timer: 2500
   })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?add_admin'
+  }, '1000')
+</script>";
         }
     }
 

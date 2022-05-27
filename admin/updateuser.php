@@ -66,6 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       })
     </script>";
 
+    echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?updateuser=$id'
+  }, '1000')
+</script>";
+
 
     }
 

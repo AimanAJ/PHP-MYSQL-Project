@@ -59,6 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     timer: 2500
   })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?updatecoupon=$id'
+  }, '1000')
+</script>";
   }
 }
 

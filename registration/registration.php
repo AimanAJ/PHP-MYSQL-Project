@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $_SESSION['user_id '] = $user['user_id'];
                     $_SESSION['user_name '] = $user['user_name'];
-                    header('location: ../home.php');
+                    header('location:' . $_GET['continue']);
                 } else {
                     echo "faild login";
                 }

@@ -66,6 +66,13 @@ if(isset($_POST['delete'])){
     timer: 2500
   })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?view_category'
+  }, '1000')
+</script>";
 }
 ?>
 

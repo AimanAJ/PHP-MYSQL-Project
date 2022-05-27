@@ -100,9 +100,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 					</div>
 				</div>
 <div class="col-sm-9 padding-right">
-	<div class="features_items">
+	<h2 class="title text-center">Fitness Equipment</h2>
+	<div class="features_items row">
 		<!--features_items-->
-		<h2 class="title text-center">Fitness Equipment</h2>
 
 		<?php foreach ($products as $product) : ?>
 			<div class="col-sm-4">
@@ -112,7 +112,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 							<img src="../admin/image/product_image/<?=$product['product_image'] ?>" />
 
-							<h2><?php echo $product['product_price'] ?></h2>
+							<h2><?php echo $product['product_price'] ?> JOD</h2>
 							<p><?php echo $product['product_name'] ?></p>
 
 						</div>
@@ -120,7 +120,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 							<div class='overlay-content'>
 
-								<h2><?php echo $product['product_price'] ?></h2>
+								<h2><?php echo $product['product_price'] ?> JOD</h2>
 								<p><?php echo $product['product_name'] ?></p>
 								<a href="singleProduct.php?id=<?php echo $product['product_id'] ?>" class='btn btn-default add-to-cart'>VIEW </a>
 
@@ -137,6 +137,12 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
+	</div>
+	<!--features_items-->
+</div>
+</div>
+</div>
+</section>
 
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>
@@ -144,12 +150,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 							<li><a href="">3</a></li>
 							<li><a href="">&raquo;</a></li>
 						</ul>
-					</div>
-					<!--features_items-->
-				</div>
-			</div>
-		</div>
-	</section>
 
 
 

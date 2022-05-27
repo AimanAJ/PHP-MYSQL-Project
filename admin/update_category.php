@@ -50,6 +50,15 @@ $single_category = select_one_category($connect, $id);
   timer: 2000
 })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?update=$id'
+  }, '1000')
+</script>";
+
+  
     }
   }
   ?>

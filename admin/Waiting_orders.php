@@ -65,6 +65,12 @@ if (isset($_POST['move1']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // echo $id;
     move($connect, $id);
     delete_move($connect , $id);
+
+    echo "
+    <script>
+    window.location.href = 'index.php?Waiting_orders'
+    </script>";
+
     echo "<script>
     Swal.fire({
     position: 'top-end',
@@ -74,6 +80,13 @@ if (isset($_POST['move1']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     timer: 2500
   })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?Waiting_orders'
+  }, '1000')
+</script>";
 }
 
 
@@ -82,14 +95,23 @@ if(isset($_POST['delete1']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
     $id = $_POST['delete'];
 
     delete_order($connect , $id);
+
+    
     echo "<script>
     Swal.fire({
-    position: 'top-end',
-    icon: 'success',
-    title: 'Order has been deleted successfully',
-    showConfirmButton: false,
-    timer: 2500
-  })
-</script>";
+        position: 'top-end',
+        icon: 'success',
+        title: 'Order has been deleted successfully',
+        showConfirmButton: false,
+        timer: 2500
+    })
+    </script>";
+
+    echo "
+    <script>
+    setTimeout(() => {
+        window.location.href = 'index.php?Waiting_orders'
+      }, '1000')
+    </script>";
 }
 ?>

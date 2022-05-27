@@ -62,6 +62,13 @@ $admin = view_one_admin($connect , $id)
     timer: 2500
   })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?updateadmin=$id'
+  }, '1000')
+</script>";
         }
     }
 ?>

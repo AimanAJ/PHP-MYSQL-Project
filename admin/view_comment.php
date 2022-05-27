@@ -76,5 +76,12 @@ if(isset($_POST['delete1'])){
   })
 </script>";
 
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?veiw_comment=$product_id'
+  }, '1000')
+</script>";
+
 }
 ?>

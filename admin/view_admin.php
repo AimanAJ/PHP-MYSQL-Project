@@ -67,5 +67,12 @@ if(isset($_POST['delete1'])){
     timer: 2500
   })
 </script>";
+
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?view_admin'
+  }, '1000')
+</script>";
 }
 ?>

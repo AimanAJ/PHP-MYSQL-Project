@@ -130,6 +130,13 @@ $cate = $pro->fetchALL(PDO::FETCH_ASSOC);
         timer: 2500
       })
     </script>";
+
+    echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?upadteproduct=$id'
+  }, '1000')
+</script>";
       
     }
 

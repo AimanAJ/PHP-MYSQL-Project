@@ -58,6 +58,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   })
 </script>";
 
+echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?add_product'
+  }, '1000')
+</script>";
+
     // $Ad=$pdo->prepare($adding);
 
 

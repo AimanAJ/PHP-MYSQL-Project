@@ -188,6 +188,14 @@ if (isset($_GET['id'])) {
         $result->bindParam(':name', $u_name);
         $result->bindParam(':product_id', $pr_di);
         $result->execute();
+        
+  echo "
+  <script>
+  setTimeout(() => {
+      window.location.href = 'singleProduct.php?id=$pr_id'
+    }, '1000')
+  </script>";
+
       } else {
         echo $id_user;
 
@@ -254,7 +262,6 @@ if (isset($_GET['id'])) {
       </div>
     </div>
   </div>
-
 
 
 

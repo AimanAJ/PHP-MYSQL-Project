@@ -123,7 +123,7 @@
 							<ul class="nav navbar-nav col d-flex flex-row">
 								<!-- <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
-								<li><a href="http://localhost/php_mysql_project/check_cart/checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+		
 								<li><a href="http://localhost/php_mysql_project/check_cart/cart2.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<?php
 								//add check if user loged in or not
@@ -132,6 +132,7 @@
 								$userId=$_SESSION['user_id ']?? 0;
 
 								if (isset($userId) && $userId != 0) {
+									echo "<li><a href='http://localhost/php_mysql_project/check_cart/checkout.php'><i class='fa fa-crosshairs'></i> Checkout</a></li>";
 									echo "<li><a href='../registration/logout.php'><i class='fa fa-lock'></i>logout</a></li>";
 									echo "<li><a href='../user/profile.php'><i class='fa fa-user'></i>profile</a></li>";
 

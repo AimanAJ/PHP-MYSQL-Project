@@ -9,6 +9,8 @@ include "../ip_address.php";
 $id_user = $_SESSION['user_id '] ?? 0;
 
 
+
+
 ?>
 <?php
 // Check to make sure the id parameter is specified in the URL
@@ -43,7 +45,7 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <link rel="stylesheet" href="../css/singleP.css">
-  
+
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
@@ -53,6 +55,9 @@ if (isset($_GET['id'])) {
 
 
 <body>
+
+
+
   <main class="container">
 
     <!-- Left Column /   Image -->
@@ -140,7 +145,7 @@ if (isset($_GET['id'])) {
           icon: 'success',
           title: 'Item has been added to cart successfully',
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         })
       </script>";
         }
@@ -168,11 +173,12 @@ if (isset($_GET['id'])) {
   <?php
   $pr_id = $_GET['id'];
 
+  // echo $id_user;
+  if ($_SERVER["REQUEST_METHOD"] == "POST"  && isset($_POST["comment"])) {
 
-  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_name ']) && isset($_POST["comment"])) {
     $com = $_POST["comment"];
     if ($com != "") {
-      if (isset($_SESSION['user_name ']) && $_SESSION['user_name '] != '') {
+      if ($id_user) {
 
         $u_name =  $_SESSION['user_name '];
         $pr_di = $_POST["id_comment"];
@@ -183,25 +189,24 @@ if (isset($_GET['id'])) {
         $result->bindParam(':product_id', $pr_di);
         $result->execute();
       } else {
+        echo $id_user;
 
-        echo " <!-- <script> 
-          Swal.fire({
-            title: '<strong> <u>Login</u></strong>',
-            icon: 'info',
-            html: 'You have to loged in to continue</b>, ' +
-              '<a href='../registration/login.php'>GO</a> ',
-
-            showCloseButton: true,
-            showCancelButton: true,
-            focusConfirm: false,
-            confirmButtonText: '<a href='../registration/login.php'><i class='fa fa-thumbs-up'></i> login!</a> ',
-            confirmButtonAriaLabel: 'Thumbs up, great!', -->
-          })
-        </script>";
-      }
-    }
-  }
   ?>
+        <script>
+          Swal.fire({
+            title: 'You must be logged in to be able to write a comment',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            }
+          })
+        </script>"; <?php
+                  }
+                }
+              }
+                    ?>
 
   <div class="row d-flex flex-column  ">
     <div>

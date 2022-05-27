@@ -59,7 +59,7 @@ $all_orders = select_orders($connect);
 
 </html>
 <?php
-if (isset($_POST['move1'])) {
+if (isset($_POST['move1']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = $_POST['move'];
     // echo $id;
@@ -77,7 +77,7 @@ if (isset($_POST['move1'])) {
 }
 
 
-if(isset($_POST['delete1'])){
+if(isset($_POST['delete1']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $id = $_POST['delete'];
 

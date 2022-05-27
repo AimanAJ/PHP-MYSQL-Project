@@ -56,7 +56,7 @@ $all_orders = select_paid_orders($connect);
 </html>
 <?php
 
-if (isset($_POST['delete1'])) {
+if (isset($_POST['delete1']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = $_POST['delete'];
 

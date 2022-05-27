@@ -293,7 +293,10 @@ if (isset($_POST['placeorder']) && isset($_SESSION['cart']) && !empty($_SESSION[
                         confirmButtonText: "<a href='../registration/login.php'><i class='fa fa-thumbs-up'></i> login!</a> ",
                         confirmButtonAriaLabel: 'Thumbs up, great!',
                     })
+                    
                 </script>
+
+                
 
             <?php } ?>
 

@@ -1,6 +1,7 @@
 <?php
 
 // connection
+// session_start();
 
 $user = "root";
 $password = "";
@@ -94,7 +95,7 @@ $datas = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
 <!-- --------------------------2022-------------------- -->
-<h2>Hi Mr.<?= $_SESSION['admin_name']; ?></h2>
+
 
   <div class="grey-bg container-fluid">
     <section id="minimal-statistics">

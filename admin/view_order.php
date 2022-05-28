@@ -18,7 +18,6 @@ $all_product = select_orders_details($connect, $i);
                 <th scope="col">name</th>
                 <th scope="col">image</th>
                 <th scope="col">price</th>
-                <th scope="col">description</th>
                 <th scope="col">category</th>
                 <th scope="col">quantity</th>
                 <th scope="col">Action</th>
@@ -38,7 +37,6 @@ $all_product = select_orders_details($connect, $i);
 
                     <td><?php echo $delails["product_price"] ?></td>
 
-                    <td><?php echo $delails["product_description"] ?></td>
 
                     <td><?php echo $delails["category_id"]  ?></td>
                     <form action="" method="post">

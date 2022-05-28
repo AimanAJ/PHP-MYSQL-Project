@@ -270,12 +270,12 @@ $subtotal = 0.00;
 
                                     <tr class="shipping-cost">
                                         <td>After Coupon</td>
-                                        <td><?php echo $_SESSION['total_coupon'] ?></td>
+                                        <td><?php echo $_SESSION['total_coupon'] ?? 0 ?></td>
                                     </tr>
                                     <tr>
                                         <td>Total</td>
                                         <td><span><?php
-                                                    if ($_SESSION['total_coupon'] == $total) {
+                                                    if (($_SESSION['total_coupon'] ?? 0) == $total) {
                                                         echo $total;
                                                     } else {
                                                         echo $_SESSION['total_coupon'];

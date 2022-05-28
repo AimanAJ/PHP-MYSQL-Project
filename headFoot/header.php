@@ -128,7 +128,9 @@
 							<li><a href="http://localhost/php_mysql_project/check_cart/cart2.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 							<?php
 							//redirect link
+
 							$link = "HTTP://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+							
 							$userId = $_SESSION['user_id '] ?? 0;
 							//add check if user loged in or not
 							if (isset($userId) && $userId != 0) {

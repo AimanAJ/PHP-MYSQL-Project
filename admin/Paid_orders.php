@@ -70,5 +70,12 @@ if (isset($_POST['delete1']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     timer: 2500
   })
 </script>";
+
+    echo "
+<script>
+setTimeout(() => {
+    window.location.href = 'index.php?paid_orders'
+  }, '1000')
+</script>";
 }
 ?>

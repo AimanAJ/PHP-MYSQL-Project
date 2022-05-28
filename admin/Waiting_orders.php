@@ -66,10 +66,6 @@ if (isset($_POST['move1']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     move($connect, $id);
     delete_move($connect , $id);
 
-    echo "
-    <script>
-    window.location.href = 'index.php?Waiting_orders'
-    </script>";
 
     echo "<script>
     Swal.fire({
